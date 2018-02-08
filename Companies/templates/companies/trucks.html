@@ -10,13 +10,13 @@
     </head>
     <body style="font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif" >
         <nav class="navbar navbar-expand-sm bg-dark">
-            <div class="container col-5"> 
+            <div class="container col-5" > 
                 <div class="dropdown">
                     <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
                         <b>Notifications</b>
                     </button>
-                    <ul class='list-group'>
-                        <div class="dropdown-menu bg-secondary">
+                    <ul class='list-group' >
+                        <div class="dropdown-menu bg-secondary" style="overflow-y:scroll;height:200px">
                             {%for i in y%}
                             <a class="dropdown-item list-group-item bg-dark" style="color:bisque" href="#">{{i}}</a>
                             {%endfor%}
@@ -26,14 +26,14 @@
             </div>    
             <div class='container col-7' style="color:bisque">
                 <h3>
-                    <b>Gudgaon Travels Pvt. Ltd.</b>
+                    <b>Gurgaon Travels Pvt. Ltd.</b>
                 </h3>
             </div>
         </nav>
         <div class="row">
             {%for k in trucks%}
             <div class="card col-3" style="width:400px">
-                <img class="card-img-top"  src="{{k.image.url}}" alt="Card image">
+                <img class="card-img-top"  src="{{k.image.url}}" style="height:250px;" alt="Card image">
                 <div class="card-body">
                 <h4 class="card-title">{{k}}</h4>
                 <p class="card-text">Some example text.</p>
