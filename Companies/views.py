@@ -9,6 +9,8 @@ import datetime
 
 
 def truck_page(request):    
+    read=[]
+    unread=[]
     def check_expiry_date(self):
         trucks = Truck.objects.all()
         for truck in trucks:
@@ -40,4 +42,4 @@ def mark_read(request):
             t=Notification.objects.get(licence_type=licence)
             t.is_read=True
             t.save()
-    return render(request,"companies/trucks.html",{})
+    return redirect("/")

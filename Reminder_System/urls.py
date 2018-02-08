@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from Companies.views import truck_page,mark_read
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^check/$', truck_page),
+    url(r'^$', truck_page),
     url(r'^mark/$', mark_read)
 ]
 if settings.DEBUG:

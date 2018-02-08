@@ -1,3 +1,4 @@
+{%load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,8 +18,19 @@
                     </button>
                     <ul class='list-group' >
                         <div class="dropdown-menu bg-secondary" style="overflow-y:scroll;height:200px">
+                            <center><a href="/mark" ><button class="btn btn-outline-dark">Mark as read</button></a></center>
+                            <h5 class="dropdown-header bg-light">Unread</h5>
                             {%for i in y%}
+                            {%if i.is_read is False%}
                             <a class="dropdown-item list-group-item bg-dark" style="color:bisque" href="#">{{i}}</a>
+                            {%endif%}
+                            {%endfor%}
+                            <a class="dropdown-item list-group-item bg-dark" style="color:bisque" href="#"></a>
+                            <h5 class="dropdown-header bg-light">Read</h5>
+                            {%for i in y%}
+                            {%if i.is_read is True%}
+                            <a class="dropdown-item list-group-item bg-dark" style="color:bisque" href="#">{{i}}</a>
+                            {%endif%}
                             {%endfor%}
                         </div>
                     </ul>
