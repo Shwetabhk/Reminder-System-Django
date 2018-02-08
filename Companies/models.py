@@ -5,10 +5,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.utils.translation import ugettext_lazy as _
 
-class Company(models.Model):
+'''class Company(models.Model):
     name=models.CharField(max_length=80)
     def __str__(self):
-        return self.name
+        return self.name'''
 
 
 def get_file_ext(filepath):
@@ -27,7 +27,6 @@ def upload_image_path(instance,filename):
 
 
 class Truck(models.Model):
-    company=models.ForeignKey(Company)
     truck_number=models.CharField(max_length=14)
     insurance_number=models.PositiveIntegerField()
     insurance_expiry=models.DateField()
@@ -36,11 +35,10 @@ class Truck(models.Model):
     image=models.ImageField(upload_to=upload_image_path,null=True,blank=True)
 
     def __str__(self):
-        return self.company.name+"-"+self.truck_number
+        return "GurgaonTravels-"+self.truck_number
 
 
 class Notification(models.Model):
-    serial=models.PositiveIntegerField()
     company_name=models.CharField(max_length=80)
     licence_type = models.CharField(max_length=30)
     created = models.DateTimeField(auto_now_add=True)
@@ -49,8 +47,8 @@ class Notification(models.Model):
     is_read = models.BooleanField(_('Is read?'), default=False)
 
     def __str__(self):
-        title = _('%(serial)s . %(company)s licence %(licence)s will expire in %(days)s days')
-        return title % {'serial':self.serial,'company': self.company_name, 'licence': self.licence_type,
+        title = _('%(company)s licence %(licence)s will expire in %(days)s days')
+        return title % {'company': self.company_name, 'licence': self.licence_type,
                         'days':self.days_remaining}
 
     class Meta:

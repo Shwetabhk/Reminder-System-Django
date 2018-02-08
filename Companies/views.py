@@ -3,11 +3,15 @@ from django.views.generic import ListView,DetailView
 from .models import Truck,Notification
 import datetime
 # Create your views here.
+
+
+#def home_page(request):
+
+
 def truck_page(request):    
     def check_expiry_date(self):
         trucks = Truck.objects.all()
         for truck in trucks:
-            company=str(truck.company)
             insurance=truck.insurance_number
             fitness=truck.fitness_certificate_id
             insurance_expiry_date = truck.insurance_expiry
@@ -18,15 +22,15 @@ def truck_page(request):
             print (check_date2)
             global i
             if check_date1== 7 or check_date1== 15 or check_date1== 30:
-                obj,notif=Notification.objects.get_or_create(serial=1,company_name=company,licence_type="Insurance-id-"+str(insurance),days_remaining=check_date1)
+                obj,notif=Notification.objects.get_or_create(company_name="Gurgaon",licence_type="Insurance-id-"+str(insurance),days_remaining=check_date1)
                 if notif is True:
                     obj.save()
             if check_date2== 7 or check_date2== 15 or check_date2== 30:
-                obj,notif=Notification.objects.get_or_create(serial=1,company_name=company,licence_type="Fitness-id-"+fitness,days_remaining=check_date2)
+                obj,notif=Notification.objects.get_or_create(company_name="Gurgaon",licence_type="Fitness-id-"+fitness,days_remaining=check_date2)
                 if notif is True:
                     obj.save()
     check_expiry_date(request)
-    return render(request,"companies/trucks.html",{})
+    return render(request,"companies/trucks.html",{'x':1,'y':Notification.objects.all,'trucks':Truck.objects.all})
 
 def mark_read(request):
     notifications=Notification.objects.all()
