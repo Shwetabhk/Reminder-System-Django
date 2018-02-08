@@ -13,46 +13,58 @@
         <nav class="navbar navbar-expand-sm bg-dark">
             <div class="container col-5" > 
                 <div class="dropdown">
-                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
-                        <b>Notifications</b>
+                    {% if unread is not 0 %}
+                    <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown">
+                        <img  class='img-thumbnail' width="55" height="55" src='{%static "img/unread.png" %}'>&nbsp;<span class="badge badge-light">{{unread}}</span>
                     </button>
+                    {%else%}
+                    <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown">
+                        <img  class='img-thumbnail' width="55" height="55" src='{%static "img/read.png" %}'>
+                        </button>
+                    {%endif%}
                     <ul class='list-group' >
-                        <div class="dropdown-menu bg-secondary" style="overflow-y:scroll;height:200px">
-                            <center><a href="/mark" ><button class="btn btn-outline-dark">Mark as read</button></a></center>
+                        <div class="dropdown-menu bg-dark" style="overflow-y:scroll;height:200px">
+                            <center><a href="/mark" ><button class="btn btn-outline-secondary">Mark as read</button></a></center>
                             <h5 class="dropdown-header bg-light">Unread</h5>
                             {%for i in y%}
                             {%if i.is_read is False%}
-                            <a class="dropdown-item list-group-item bg-dark" style="color:bisque" href="#">{{i}}</a>
+                            
+                            <a class="dropdown-item list-group-item bg-dark" style="color:rgb(204, 199, 199)" href="/{{i.truck_id}}">{{i}}</a>
                             {%endif%}
                             {%endfor%}
                             <a class="dropdown-item list-group-item bg-dark" style="color:bisque" href="#"></a>
                             <h5 class="dropdown-header bg-light">Read</h5>
                             {%for i in y%}
                             {%if i.is_read is True%}
-                            <a class="dropdown-item list-group-item bg-dark" style="color:bisque" href="#">{{i}}</a>
+                            
+                            <a class="dropdown-item list-group-item bg-dark" style="color:bisque" href="/{{i.truck_id}}">{{i}}</a>
                             {%endif%}
                             {%endfor%}
                         </div>
                     </ul>
                 </div>
             </div>    
-            <div class='container col-7' style="color:bisque">
+            <div class='container col-7' >
                 <h3>
-                    <b>Gurgaon Travels Pvt. Ltd.</b>
+                    <a href="/" style="color:rgb(204, 198, 198)"><b>Gurgaon Travels Pvt. Ltd.</b></a>
                 </h3>
             </div>
         </nav>
+        {% block body %}
         <div class="row">
             {%for k in trucks%}
             <div class="card col-3" style="width:400px">
                 <img class="card-img-top"  src="{{k.image.url}}" style="height:250px;" alt="Card image">
                 <div class="card-body">
-                <h4 class="card-title">{{k}}</h4>
-                <p class="card-text">Some example text.</p>
-                <a href="#" class="btn btn-primary">See Profile</a>
-                </div>
+                    <h4 class="card-title">{{k}}</h4>
+                    <div>
+                        <a href="{{k.id}}"><button type="button" class="btn btn-secondary" >See info
+                        </button></a>
+                    </div>
+                </div>    
             </div>
             {%endfor%}
         </div>
+        {% endblock %}
     </body>
 </html>

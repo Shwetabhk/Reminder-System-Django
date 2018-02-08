@@ -40,12 +40,13 @@ class Truck(models.Model):
 
 class Notification(models.Model):
     company_name=models.CharField(max_length=80)
+    truck=models.CharField(max_length=14,default=21)
+    truck_id=models.IntegerField(default=-1)
     licence_type = models.CharField(max_length=30)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     days_remaining=models.PositiveIntegerField()
     is_read = models.BooleanField(_('Is read?'), default=False)
-
     def __str__(self):
         title = _('%(company)s licence %(licence)s will expire in %(days)s days')
         return title % {'company': self.company_name, 'licence': self.licence_type,

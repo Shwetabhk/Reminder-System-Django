@@ -1,0 +1,17 @@
+{% extends 'companies/trucks.html' %}
+
+{% block body %}
+    <center>
+        <div class='container col-4' width=>
+            <img class="card-img-top"  src="{{instance.image.url}}"   alt="Card image">
+        </div>
+        <div class="Container col-5">
+            <ul class='list-group'>
+                <li class='list-group-item'><h4><b>Registration number</b> - {{instance.truck_number}}</h4></li>
+                <li class='list-group-item'><h4><b>Insurance number</b> - {{instance.insurance_number}}</h4></li>
+                <li class='list-group-item'><h4><b>Insurance Expiry</b> - {{instance.insurance_expiry}}</h4></li>
+                <li class='list-group-item'><h4><b>Fitness Certificate ID</b> - {{instance.fitness_certificate_id}}</h4></li>
+                <li class='list-group-item'><h4><b>Fitness Certificate Expiry</b> - {{instance.fitness_certificate_expiry}}</h4></li>
+            </ul>
+        </div>
+{% endblock %}
