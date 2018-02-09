@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <!--Importing Boot-strap-->
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -10,25 +11,32 @@
         <title>Trucks</title>
     </head>
     <body style="font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif" >
+        <!--Navigation bar consisting of notificiation bell icon and Company name-->
         <nav class="navbar navbar-expand-sm bg-dark">
             <div class="container col-5" > 
                 <div class="dropdown">
+                    <!--If there are unread notifications.-->
                     {% if unread is not 0 %}
                     <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown">
                         <img  class='img-thumbnail' width="55" height="55" src='{%static "img/unread.png" %}'>&nbsp;<span class="badge badge-light">{{unread}}</span>
                     </button>
+                    <!--If there are no unread notifications-->
                     {%else%}
                     <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown">
                         <img  class='img-thumbnail' width="55" height="55" src='{%static "img/read.png" %}'>
                         </button>
                     {%endif%}
+                    <!--Rendering the notifications dropdown menu-->
                     <ul class='list-group' >
                         <div class="dropdown-menu bg-dark" style="overflow-y:scroll;height:200px">
+                           <!--Mark as read buton which redirects to "/mark" url which has the mark view attached to it which alters
+                            the is_read field of Notification Table-->
                             <center><a href="/mark" ><button class="btn btn-outline-secondary">Mark as read</button></a></center>
                             <h5 class="dropdown-header bg-light">Unread</h5>
                             {%for i in y%}
                             {%if i.is_read is False%}
-                            
+                            <!--Using boolean field "is_read of notifications table to check and truck_id field which referes to the 
+                            coreesponding id of the truck in truck table for opening the truck detail page upon clicking the notification.-->
                             <a class="dropdown-item list-group-item bg-dark" style="color:rgb(204, 199, 199)" href="/{{i.truck_id}}">{{i}}</a>
                             {%endif%}
                             {%endfor%}
@@ -50,6 +58,7 @@
                 </h3>
             </div>
         </nav>
+        <!--This div renders all the trucks of the transport company-->
         {% block body %}
         <div class="row">
             {%for k in trucks%}

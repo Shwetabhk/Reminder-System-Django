@@ -2,12 +2,9 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic import ListView,DetailView
 from .models import Truck,Notification
 import datetime
-# Create your views here.
 
 
-#def home_page(request):
-
-
+#Function for Rendering the home page and checking the expiry date and generate notifications if not already created.
 def truck_page(request):    
     read=[]
     unread=[]
@@ -39,6 +36,8 @@ def truck_page(request):
     check_expiry_date(request)
     return render(request,"companies/trucks.html",{'x':1,'y':Notification.objects.all,'trucks':Truck.objects.all,'read':len(read),'unread':len(unread)})
 
+
+#Function for Mark as read feature in the notifications.
 def mark_read(request):
     notifications=Notification.objects.all()
     for notif in notifications:
@@ -49,7 +48,7 @@ def mark_read(request):
             t.save()
     return redirect("/")
 
-
+#Corresponding details for each truck and the same function for notifications.
 def truck_detail(request,pk=None,*args,**kwargs):
     read=[]
     unread=[]
@@ -76,7 +75,7 @@ def truck_detail(request,pk=None,*args,**kwargs):
             obj,notif=Notification.objects.get_or_create(company_name="Gurgaon",licence_type="Fitness-id-"+fitness,days_remaining=check_date2)
             if notif is True:
                 obj.save()
-    instance=get_object_or_404(Truck,pk=pk)
+    instance=get_object_or_404(Truck,pk=pk) # Using Primary Key for id.
     context={
         "instance":instance,
         'x':1,
