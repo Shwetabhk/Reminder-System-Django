@@ -4,6 +4,8 @@ from .models import Truck,Notification
 import datetime
 import csv
 import os
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 #Function for Rendering the home page and checking the expiry date and generate notifications if not already created.
 def truck_page(request):    
@@ -96,19 +98,25 @@ def tabular_upload(request):
     context={
         'trucks':Truck.objects.all       
     }
-    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-    file = os.path.join(THIS_FOLDER, 'truck.csv')
-    with open(file) as f:
-        reader = csv.reader(f)
-        for row in reader:
-            _, created = Truck.objects.get_or_create(
-                id=row[0],
-                truck_number=row[1],
-                insurance_number=row[2],
-                insurance_expiry=row[3],
-                fitness_certificate_expiry=row[4],
-                fitness_certificate_id=row[5],
-                image=row[6],
-                ) 
+    THIS_FOLDER=os.path.dirname(os.path.abspath(__file__))
+    file=os.path.join(THIS_FOLDER,"Creds.json")
+    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(file, scope)
+    gc = gspread.authorize(credentials)
+    sh=gc.open("Spreadsheet1")
+    #sh.share('shwetabh002@gmail.com', perm_type='user', role='writer')
+    ws=sh.get_worksheet(0)
+    List=ws.get_all_values()
+    print(List)
+    for row in List:
+        _, created = Truck.objects.get_or_create(
+        id=row[0],
+        truck_number=row[1],
+        insurance_number=row[2],
+        insurance_expiry=row[3],
+        fitness_certificate_expiry=row[4],
+        fitness_certificate_id=row[5],
+        image=row[6],
+        ) 
 
     return render(request,"companies/tabular.html",context)
