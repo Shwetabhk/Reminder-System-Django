@@ -2,7 +2,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic import ListView,DetailView
 from .models import Truck,Notification
 import datetime
-
+import csv
+import os
 
 #Function for Rendering the home page and checking the expiry date and generate notifications if not already created.
 def truck_page(request):    
@@ -66,7 +67,6 @@ def truck_detail(request,pk=None,*args,**kwargs):
         fitness_expiry_date = truck.fitness_certificate_expiry
         check_date1 = int((insurance_expiry_date - datetime.date.today()).days)
         check_date2=int((fitness_expiry_date - datetime.date.today()).days)
-        global i
         if check_date1== 7 or check_date1== 15 or check_date1== 30:
             obj,notif=Notification.objects.get_or_create(company_name="Gurgaon",licence_type="Insurance-id-"+str(insurance),days_remaining=check_date1)
             if notif is True:
@@ -85,3 +85,30 @@ def truck_detail(request,pk=None,*args,**kwargs):
         'unread':len(unread)
     }
     return render(request,"companies/detail.html",context)
+def tabular_detail(request):
+    context={
+        'trucks':Truck.objects.all       
+    }
+    return render(request,"companies/tabular.html",context)
+
+
+def tabular_upload(request):
+    context={
+        'trucks':Truck.objects.all       
+    }
+    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+    file = os.path.join(THIS_FOLDER, 'truck.csv')
+    with open(file) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            _, created = Truck.objects.get_or_create(
+                id=row[0],
+                truck_number=row[1],
+                insurance_number=row[2],
+                insurance_expiry=row[3],
+                fitness_certificate_expiry=row[4],
+                fitness_certificate_id=row[5],
+                image=row[6],
+                ) 
+
+    return render(request,"companies/tabular.html",context)

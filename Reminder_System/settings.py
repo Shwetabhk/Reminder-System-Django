@@ -26,6 +26,8 @@ SECRET_KEY = '^$g30zoci5qzi7k0fqvzuqpyctfq5$67tw4^a$4cl^f#26++(7'
 DEBUG = True
 
 ALLOWED_HOSTS = ['shwetabh.pythonanywhere.com','127.0.0.1']
+DATE_INPUT_FORMATS = [
+    '%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y'] 
 
 
 # Application definition
@@ -38,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #user apps
-    'Companies',
+    'Companies'
 ]
 
 MIDDLEWARE = [

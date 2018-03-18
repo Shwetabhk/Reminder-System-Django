@@ -26,7 +26,7 @@ class Truck(models.Model):
     insurance_number=models.PositiveIntegerField()
     insurance_expiry=models.DateField()
     fitness_certificate_id=models.CharField(max_length=30,null=True,blank=True)
-    fitness_certificate_expiry=models.DateField(null=True,blank=True)
+    fitness_certificate_expiry=models.DateField(default=None)
     image=models.ImageField(upload_to=upload_image_path,null=True,blank=True)
 
     def __str__(self):    #To change the object names of the Truck table.

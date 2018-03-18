@@ -13,7 +13,7 @@
     <body style="font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif" >
         <!--Navigation bar consisting of notificiation bell icon and Company name-->
         <nav class="navbar navbar-expand-sm bg-dark">
-            <div class="container col-5" > 
+            <div class="container col-4" > 
                 <div class="dropdown">
                     <!--If there are unread notifications.-->
                     {% if unread is not 0 %}
@@ -52,10 +52,15 @@
                     </ul>
                 </div>
             </div>    
-            <div class='container col-7' >
+            <div class='container col-6' >
                 <h3>
                     <a href="/" style="color:rgb(204, 198, 198)"><b>Gurgaon Travels Pvt. Ltd.</b></a>
                 </h3>
+            </div>
+            <div class='container col-2'>
+                <button class="btn btn-outline-dark">
+                    <a href="/tabular" style="color:rgb(204, 198, 198)">View tabular details</a>
+                </button>
             </div>
         </nav>
         <!--This div renders all the trucks of the transport company-->

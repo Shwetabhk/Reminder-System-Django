@@ -1,0 +1,30 @@
+
+    <!--This page extends the trucks.html page apart from this block which replaces the display of all the trucks and shows 
+    information of the truck that the user clicks on using id of the Truck table.-->
+    <br>
+    <br>
+    <center>
+
+            <table style="width:80%" border="2">
+                <tr>
+                    <th><b>Truck Number</b></th>
+                    <th><b>Insurance Number</b></th>
+                    <th><b>Insurance Expiry</b></th>
+                    <th><b>Fitness Certificate id</b></th>
+                    <th><b>Fitness Certificate expiry</b></th>
+                </tr>
+                {%for k in trucks%}
+                <tr>
+                    
+                    <td>{{k.truck_number}}</td>
+                    <td>{{k.insurance_number}}</td>
+                    <td>{{k.insurance_expiry}}</td>
+                    <td>{{k.fitness_certificate_id}}</td>
+                    <td>{{k.fitness_certificate_expiry}}</td>
+                    
+                </tr>
+                {%endfor%}
+            </table> 
+            <br>
+            <br>
+                <button type="submit"><a href="/upload">Upload updated csv</a></button>

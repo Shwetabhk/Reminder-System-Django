@@ -17,12 +17,14 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from Companies.views import truck_page,mark_read,truck_detail
+from Companies.views import truck_page,mark_read,truck_detail,tabular_detail,tabular_upload
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', truck_page),
     url(r'^mark/$', mark_read),
-    url(r'^(?P<pk>\d+)/$',truck_detail)
+    url(r'^(?P<pk>\d+)/$',truck_detail),
+    url(r'tabular/$',tabular_detail),
+    url(r'upload/$',tabular_upload)
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
