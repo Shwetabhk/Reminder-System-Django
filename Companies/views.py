@@ -8,7 +8,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 #Function for Rendering the home page and checking the expiry date and generate notifications if not already created.
-def truck_page(request):    
+def truck_page(request):
     read=[]
     unread=[]
     nots=Notification.objects.all()
@@ -19,7 +19,7 @@ def truck_page(request):
             unread.append(i)
     def check_expiry_date(self):
         trucks = Truck.objects.all()
-        
+
         for truck in trucks:
             number=truck.truck_number
             insurance=truck.insurance_number
@@ -44,9 +44,10 @@ def truck_page(request):
 def mark_read(request):
     notifications=Notification.objects.all()
     for notif in notifications:
+        truckid=notif.truck_id
         licence=notif.licence_type
         if notif.is_read is False:
-            t=Notification.objects.get(licence_type=licence)
+            t=Notification.objects.get(truck_id=truckid,licence_type=licence)
             t.is_read=True
             t.save()
     return redirect("/")
@@ -63,6 +64,7 @@ def truck_detail(request,pk=None,*args,**kwargs):
             unread.append(i)
     trucks = Truck.objects.all()
     for truck in trucks:
+        id1=truck.id
         insurance=truck.insurance_number
         fitness=truck.fitness_certificate_id
         insurance_expiry_date = truck.insurance_expiry
@@ -70,11 +72,11 @@ def truck_detail(request,pk=None,*args,**kwargs):
         check_date1 = int((insurance_expiry_date - datetime.date.today()).days)
         check_date2=int((fitness_expiry_date - datetime.date.today()).days)
         if check_date1== 7 or check_date1== 15 or check_date1== 30:
-            obj,notif=Notification.objects.get_or_create(company_name="Gurgaon",licence_type="Insurance-id-"+str(insurance),days_remaining=check_date1)
+            obj,notif=Notification.objects.get_or_create(truck_id=id1,company_name="Gurgaon",licence_type="Insurance-id-"+str(insurance),days_remaining=check_date1)
             if notif is True:
                 obj.save()
         if check_date2== 7 or check_date2== 15 or check_date2== 30:
-            obj,notif=Notification.objects.get_or_create(company_name="Gurgaon",licence_type="Fitness-id-"+fitness,days_remaining=check_date2)
+            obj,notif=Notification.objects.get_or_create(truck_id=id1,company_name="Gurgaon",licence_type="Fitness-id-"+fitness,days_remaining=check_date2)
             if notif is True:
                 obj.save()
     instance=get_object_or_404(Truck,pk=pk) # Using Primary Key for id.
@@ -89,21 +91,21 @@ def truck_detail(request,pk=None,*args,**kwargs):
     return render(request,"companies/detail.html",context)
 def tabular_detail(request):
     context={
-        'trucks':Truck.objects.all       
+        'trucks':Truck.objects.all
     }
     return render(request,"companies/tabular.html",context)
 
 
 def tabular_upload(request):
     context={
-        'trucks':Truck.objects.all       
+        'trucks':Truck.objects.all
     }
     THIS_FOLDER=os.path.dirname(os.path.abspath(__file__))
     file=os.path.join(THIS_FOLDER,"Creds.json")
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     credentials = ServiceAccountCredentials.from_json_keyfile_name(file, scope)
     gc = gspread.authorize(credentials)
-    sh=gc.open("Spreadsheet1")
+    sh=gc.open("Trucks")
     #sh.share('shwetabh002@gmail.com', perm_type='user', role='writer')
     ws=sh.get_worksheet(0)
     List=ws.get_all_values()
@@ -117,6 +119,6 @@ def tabular_upload(request):
         fitness_certificate_expiry=row[4],
         fitness_certificate_id=row[5],
         image=row[6],
-        ) 
+        )
 
     return render(request,"companies/tabular.html",context)
